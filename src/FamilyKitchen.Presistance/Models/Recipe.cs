@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FamilyKitchen.Persistance.Models
 {
-    internal class Recipe
+    public class Recipe
     {
+        public int PorionsAmount { get; private set; }
+        public List<Tuple<Ingredient, decimal>> Ingredients { get; private set; }
+        public List<string> Steps { get; private set; }
+        public string Notes { get; private set; }
     }
 }
