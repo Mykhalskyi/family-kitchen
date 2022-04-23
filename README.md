@@ -1,6 +1,7 @@
-# Welcome to the family-kitchen wiki!
+# Welcome to the "Family Kitchen"!
 
-Here you can find all project related information.
+This project helps families to manage home kitchen activities.
+Manage your recipes, menu, shopping and many others!
 
 ### Navigation
 
