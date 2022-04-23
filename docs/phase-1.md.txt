@@ -1,22 +1,31 @@
-<h3>API Requirements</h1>
-<h5>Phase 1</h5>
+### API Requirements
 
-<h6>Section "Recipe book"</h6>
-
-User can:
-1. View all recipes
-2. Add new recipe
-3. Edit recipe
-4. Delete recipe
+##### Phase 1
 
 
-<h6>Section "Menu"</h6>
+###### Section "Ingredients catalog"
 
-User can:
-1. Create daily menu in format: dish - portion amount.
+> User can:
+> 1. Add new ingredient
+> 2. Delete ingredient
 
 
-<h6>Section "Shopping"</h6>
+###### Section "Recipe book"
 
-User can:
-1. Create shop list from menu.
+> User can:
+> 1. View all recipes
+> 2. Add new recipe
+> 3. Edit recipe
+> 4. Delete recipe
+
+
+###### Section "Menu"
+
+> User can:
+> 1. Create daily menu in format: dish - portion amount.
+
+
+###### Section "Shopping"
+
+> User can:
+> 1. Create shop list from menu.
