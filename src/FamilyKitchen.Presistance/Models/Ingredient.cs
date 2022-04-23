@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FamilyKitchen.Persistance.Models
+﻿namespace FamilyKitchen.Persistance.Models
 {
-    internal class Ingredient
+    public class Ingredient
     {
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public Measure Measure { get; private set; }
+        public IngredientType Type { get; private set; }
     }
 }
