@@ -1,0 +1,22 @@
+<h3>API Requirements</h1>
+<h5>Phase 1</h5>
+
+<h6>Section "Recipe book"</h6>
+
+User can:
+1. View all recipes
+2. Add new recipe
+3. Edit recipe
+4. Delete recipe
+
+
+<h6>Section "Menu"</h6>
+
+User can:
+1. Create daily menu in format: dish - portion amount.
+
+
+<h6>Section "Shopping"</h6>
+
+User can:
+1. Create shop list from menu.
