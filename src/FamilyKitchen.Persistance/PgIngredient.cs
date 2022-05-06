@@ -1,24 +1,24 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
-using System.Data.SqlClient;
+using System.Data;
 
 namespace FamilyKitchen.Persistance
 {
     public class PgIngredient : IIngredient
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
 
         private readonly int id;
 
-        public PgIngredient(string connectionString, int id)
+        public PgIngredient(IDbConnection connection, int id)
         {
-            this.connectionString = connectionString;
+            this.connection = connection;
             this.id = id;
         }
 
         public decimal Amount()
         {
-            using var connection = new SqlConnection(connectionString);
+
             var sql = "SELECT Amount FROM Ingredients WHERE Id = @Id";
             return connection
                 .QuerySingle(sql, new { Id = id })
@@ -27,10 +27,10 @@ namespace FamilyKitchen.Persistance
 
         public IProduct Product()
         {
-            using var connection = new SqlConnection(connectionString);
+
             var sql = "SELECT ProductId FROM Ingredients WHERE Id = @Id";
             var row = connection.QuerySingle(sql, new { Id = id });
-            return new PgProduct(connectionString, row.ProductId);
+            return new PgProduct(connection, row.ProductId);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FamilyKitchen.Persistance;
 using FamilyKitchen.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace FamilyKitchen.WebAPI.Controllers
 {
@@ -8,25 +9,25 @@ namespace FamilyKitchen.WebAPI.Controllers
     [Route("calendar")]
     public class CalendarController : ControllerBase
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
 
-        public CalendarController()
+        public CalendarController(IDbConnection connection)
         {
-            this.connectionString = "";
+            this.connection = connection;
         }
 
         [HttpGet]
         [Route("between")]
         public IEnumerable<IDay> Between(DateTime start, DateTime end)
         {
-            return new PgCalendar(connectionString).Between(start, end);
+            return new PgCalendar(connection).Between(start, end);
         }
 
         [HttpPost]
         [Route("add-cooking")]
         public void AddCooking(DateTime date, int dishId, int portions)
         {
-            new PgCalendar(connectionString)
+            new PgCalendar(connection)
                 .Day(date)
                 .AddCooking(dishId, portions);
         }
@@ -35,7 +36,7 @@ namespace FamilyKitchen.WebAPI.Controllers
         [Route("delete-cooking")]
         public void RemoveCooking(DateTime date, int dishId)
         {
-            new PgCalendar(connectionString)
+            new PgCalendar(connection)
                 .Day(date)
                 .RemoveCooking(dishId);
         }

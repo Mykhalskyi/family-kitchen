@@ -1,31 +1,28 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace FamilyKitchen.Persistance
 {
     public class PgProducts : IProducts
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
 
-        public PgProducts(string connectionString)
+        public PgProducts(IDbConnection connection)
         {
-            this.connectionString = connectionString;
+            this.connection = connection;
         }
 
         public IEnumerable<IProduct> Iterate()
         {
-            using var connection = new SqlConnection(connectionString);
             var sql = "SELECT Id FROM Products";
             return connection
                 .Query(sql)
-                .Select(row => new PgProduct(connectionString, row.Id));
+                .Select(row => new PgProduct(connection, row.Id));
         }
 
         public IProduct Add(string name, MeasureUnit unit)
         {
-            using var connection = new SqlConnection(connectionString);
             var sql = "INSERT INTO Products(Name, Unit) OUTPUT INSERTED.Id VALUES(@Name, Unit)";
             var row = connection.QuerySingle(sql,
                 new
@@ -33,12 +30,11 @@ namespace FamilyKitchen.Persistance
                     Name = name,
                     Unit = unit
                 });
-            return new PgProduct(connectionString, row.Id);
+            return new PgProduct(connection, row.Id);
         }
 
         public void Remove(int id)
         {
-            using var connection = new SqlConnection(connectionString);
             var sql = "DELETE FROM Products WHERE Id = @Id";
             connection.Execute(sql, new { Id = id });
         }

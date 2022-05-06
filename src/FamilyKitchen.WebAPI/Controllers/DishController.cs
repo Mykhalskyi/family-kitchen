@@ -1,6 +1,7 @@
 ﻿using FamilyKitchen.Persistance;
 using FamilyKitchen.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace FamilyKitchen.WebAPI.Controllers
 {
@@ -8,18 +9,18 @@ namespace FamilyKitchen.WebAPI.Controllers
     [Route("dish")]
     public class DishController : ControllerBase
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
 
-        public DishController()
+        public DishController(IDbConnection connection)
         {
-            this.connectionString = "";
+            this.connection = connection;
         }
 
         [HttpGet]
         [Route("all")]
         public IEnumerable<IDish> All()
         {
-            return new PgDishes(connectionString).Iterate();
+            return new PgDishes(connection).Iterate();
         }
 
         [HttpPost]
@@ -30,14 +31,14 @@ namespace FamilyKitchen.WebAPI.Controllers
             IEnumerable<(int ProductId, int Amount)> ingredients, 
             string notes)
         {
-            new PgDishes(connectionString).Add(name, portions, ingredients, notes);
+            new PgDishes(connection).Add(name, portions, ingredients, notes);
         }
 
         [HttpDelete]
         [Route("delete")]
         public void Remove(int id)
         {
-            new PgDishes(connectionString).Remove(id);
+            new PgDishes(connection).Remove(id);
         }
     }
 }

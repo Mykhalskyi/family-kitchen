@@ -1,26 +1,26 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
-using System.Data.SqlClient;
+using System.Data;
 
 namespace FamilyKitchen.Persistance
 {
     public class PgDish : IDish
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
 
         private readonly int id;
 
-        public PgDish(string connectionString, int id)
+        public PgDish(IDbConnection connection, int id)
         {
             this.id = id;
-            this.connectionString = connectionString;
+            this.connection = connection;
         }
 
         public int Id() => id;
 
         public string Name()
         {
-            using var connection = new SqlConnection(connectionString);
+
             var sql = "SELECT Name FROM Dishes WHERE Id = @Id";
             return connection
                 .QuerySingle(sql, new { Id = id })
@@ -29,10 +29,10 @@ namespace FamilyKitchen.Persistance
 
         public IRecipe Recipe()
         {
-            using var connection = new SqlConnection(connectionString);
+
             var sql = "SELECT RecipeId FROM Dishes WHERE Id = @Id";
             var row = connection.QuerySingle(sql, new { Id = id });
-            return new PgRecipe(connectionString, row.RecipeId);
+            return new PgRecipe(connection, row.RecipeId);
         }
     }
 }

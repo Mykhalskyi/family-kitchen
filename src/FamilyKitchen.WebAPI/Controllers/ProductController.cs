@@ -1,6 +1,7 @@
 ﻿using FamilyKitchen.Persistance;
 using FamilyKitchen.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace FamilyKitchen.WebAPI.Controllers
 {
@@ -8,32 +9,32 @@ namespace FamilyKitchen.WebAPI.Controllers
     [Route("product")]
     public class ProductController : ControllerBase
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
 
-        public ProductController()
+        public ProductController(IDbConnection connection)
         {
-            this.connectionString = "";
+            this.connection = connection;
         }
 
         [HttpGet]
         [Route("all")]
         public IEnumerable<IProduct> All()
         {
-            return new PgProducts(connectionString).Iterate();
+            return new PgProducts(connection).Iterate();
         }
 
         [HttpPost]
         [Route("add")]
         public void Add(string name, MeasureUnit measureUnit)
         {
-            new PgProducts(connectionString).Add(name, measureUnit);
+            new PgProducts(connection).Add(name, measureUnit);
         }
 
         [HttpDelete]
         [Route("delete")]
         public void Remove(int id)
         {
-            new PgProducts(connectionString).Remove(id);
+            new PgProducts(connection).Remove(id);
         }
     }
 }

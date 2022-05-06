@@ -1,34 +1,31 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace FamilyKitchen.Persistance
 {
     public class PgCalendar : ICalendar
     {
-        private readonly string connectionString;
+        private readonly IDbConnection connection;
 
-        public PgCalendar(string connectionString)
+        public PgCalendar(IDbConnection connection)
         {
-            this.connectionString = connectionString;
+            this.connection = connection;
         }
 
         public IEnumerable<IDay> Between(DateTime start, DateTime end)
         {
-            using var connection = new SqlConnection(connectionString);
             var sql = "SELECT Id FROM Days WHERE Date >= @Start AND Date <= @End";
             return connection
                 .Query(sql, new { Start = start, End = end })
-                .Select(row => new PgDay(connectionString, row.Id));
+                .Select(row => new PgDay(connection, row.Id));
         }
 
         public IDay Day(DateTime date)
         {
-            using var connection = new SqlConnection(connectionString);
             var sql = "SELECT Id FROM Days WHERE Date = @Date";
             var row = connection.QuerySingle(sql, new { Date = date });
-            return new PgDay(connectionString, row.Id);
+            return new PgDay(connection, row.Id);
         }
     }
 }
