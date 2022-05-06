@@ -16,12 +16,14 @@ namespace FamilyKitchen.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Route("/between")]
         public IEnumerable<IDay> Between(DateTime start, DateTime end)
         {
             return new PgCalendar(connectionString).Between(start, end);
         }
 
         [HttpPost]
+        [Route("/add-cooking")]
         public void AddCooking(DateTime date, int dishId, int portions)
         {
             new PgCalendar(connectionString)
@@ -29,7 +31,8 @@ namespace FamilyKitchen.WebAPI.Controllers
                 .AddCooking(dishId, portions);
         }
 
-        [HttpPost]
+        [HttpDelete]
+        [Route("/delete-cooking")]
         public void RemoveCooking(DateTime date, int dishId)
         {
             new PgCalendar(connectionString)
