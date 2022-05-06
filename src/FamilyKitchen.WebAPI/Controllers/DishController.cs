@@ -15,11 +15,15 @@ namespace FamilyKitchen.WebAPI.Controllers
             this.connectionString = connectionString;
         }
 
+        [HttpGet]
+        [Route("/all")]
         public IEnumerable<IDish> All()
         {
             return new PgDishes(connectionString).Iterate();
         }
 
+        [HttpPost]
+        [Route("/add")]
         public void Add(
             string name, 
             int portions, 
@@ -29,6 +33,8 @@ namespace FamilyKitchen.WebAPI.Controllers
             new PgDishes(connectionString).Add(name, portions, ingredients, notes);
         }
 
+        [HttpDelete]
+        [Route("/delete")]
         public void Remove(int id)
         {
             new PgDishes(connectionString).Remove(id);
