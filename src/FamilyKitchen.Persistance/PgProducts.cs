@@ -36,7 +36,7 @@ namespace FamilyKitchen.Persistance
             return new PgProduct(connectionString, row.Id);
         }
 
-        public void Delete(int id)
+        public void Remove(int id)
         {
             using var connection = new SqlConnection(connectionString);
             var sql = "DELETE FROM Products WHERE Id = @Id";

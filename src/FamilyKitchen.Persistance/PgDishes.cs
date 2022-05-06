@@ -57,7 +57,7 @@ namespace FamilyKitchen.Persistance
             return new PgDish(connectionString, insertedDish.Id);
         }
 
-        public void Delete(int id)
+        public void Remove(int id)
         {
             using var connection = new SqlConnection(connectionString);
             var sql = "DELETE FROM Dishes WHERE Id = @Id";

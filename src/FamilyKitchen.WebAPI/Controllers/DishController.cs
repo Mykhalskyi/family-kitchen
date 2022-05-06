@@ -20,14 +20,18 @@ namespace FamilyKitchen.WebAPI.Controllers
             return new PgDishes(connectionString).Iterate();
         }
 
-        public void Add(string name, IEnumerable<Tuple<int, int>> ingredients, string notes)
+        public void Add(
+            string name, 
+            int portions, 
+            IEnumerable<(int ProductId, int Amount)> ingredients, 
+            string notes)
         {
-            throw new NotImplementedException();
+            new PgDishes(connectionString).Add(name, portions, ingredients, notes);
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            new PgDishes(connectionString).Remove(id);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace FamilyKitchen.WebAPI.Controllers
 
         public void Remove(int id)
         {
-            new PgProducts(connectionString).Delete(id);
+            new PgProducts(connectionString).Remove(id);
         }
     }
 }
