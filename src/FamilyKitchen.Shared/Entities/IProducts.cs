@@ -7,6 +7,5 @@
         public IProduct Add(string name, MeasureUnit unit);
 
         public void Delete(int id);
-
     }
 }
