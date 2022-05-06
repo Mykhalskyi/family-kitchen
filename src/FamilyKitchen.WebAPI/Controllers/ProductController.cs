@@ -15,16 +15,22 @@ namespace FamilyKitchen.WebAPI.Controllers
             this.connectionString = connectionString;
         }
 
+        [HttpGet]
+        [Route("/all")]
         public IEnumerable<IProduct> All()
         {
             return new PgProducts(connectionString).Iterate();
         }
 
+        [HttpPost]
+        [Route("/add")]
         public void Add(string name, MeasureUnit measureUnit)
         {
             new PgProducts(connectionString).Add(name, measureUnit);
         }
 
+        [HttpDelete]
+        [Route("/delete")]
         public void Remove(int id)
         {
             new PgProducts(connectionString).Remove(id);
