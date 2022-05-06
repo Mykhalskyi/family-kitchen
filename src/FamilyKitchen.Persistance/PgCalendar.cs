@@ -22,5 +22,13 @@ namespace FamilyKitchen.Persistance
                 .Query(sql, new { Start = start, End = end })
                 .Select(row => new PgDay(connectionString, row.Id));
         }
+
+        public IDay Day(DateTime date)
+        {
+            using var connection = new SqlConnection(connectionString);
+            var sql = "SELECT Id FROM Days WHERE Date = @Date";
+            var row = connection.QuerySingle(sql, new { Date = date });
+            return new PgDay(connectionString, row.Id);
+        }
     }
 }
