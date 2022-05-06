@@ -1,4 +1,5 @@
-﻿using FamilyKitchen.Shared.Entities;
+﻿using FamilyKitchen.Persistance;
+using FamilyKitchen.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FamilyKitchen.WebAPI.Controllers
@@ -7,12 +8,19 @@ namespace FamilyKitchen.WebAPI.Controllers
     [Route("[controller]")]
     public class DishController : ControllerBase
     {
-        public IEnumerable<IDish> All()
+        private readonly string connectionString;
+
+        public DishController(string connectionString)
         {
-            throw new NotImplementedException();
+            this.connectionString = connectionString;
         }
 
-        public void Add(string name, int portions, IEnumerable<Tuple<int, int>> ingredients, string notes)
+        public IEnumerable<IDish> All()
+        {
+            return new PgDishes(connectionString).Iterate();
+        }
+
+        public void Add(string name, IEnumerable<Tuple<int, int>> ingredients, string notes)
         {
             throw new NotImplementedException();
         }
