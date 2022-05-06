@@ -1,10 +1,7 @@
-﻿using FamilyKitchen.WebAPI.Requests.Products;
-using FamilyKitchen.WebAPI.Responses;
+﻿using FamilyKitchen.Persistance;
+using FamilyKitchen.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace FamilyKitchen.WebAPI.Controllers
 {
@@ -12,36 +9,26 @@ namespace FamilyKitchen.WebAPI.Controllers
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly ILogger<ProductController> _logger;
-        
-        public ProductController()
-        {
+        private readonly string connectionString;
 
+        public ProductController(string connectionString)
+        {
+            this.connectionString = connectionString;
         }
 
-        public async Task<List<ProductResponse>> GetAll()
+        public IEnumerable<IProduct> All()
         {
-            throw new NotImplementedException();
+            return new PgProducts(connectionString).Iterate();
         }
 
-        public async Task<ProductResponse> Get(int id)
+        public void Add(string name, MeasureUnit measureUnit)
         {
-            throw new NotImplementedException();
+            var newProduct = new PgProducts(connectionString).Add(name, measureUnit);
         }
 
-        public async Task Create(CreateProductRequest request)
+        public void Remove(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task Edit(EditProductRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task Delete(int id)
-        {
-            throw new NotImplementedException();
+            new PgProducts(connectionString).Delete(id);
         }
     }
 }
