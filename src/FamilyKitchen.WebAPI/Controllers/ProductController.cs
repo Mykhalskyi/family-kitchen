@@ -1,7 +1,6 @@
 ﻿using FamilyKitchen.Persistance;
 using FamilyKitchen.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
 
 namespace FamilyKitchen.WebAPI.Controllers
 {
@@ -23,7 +22,7 @@ namespace FamilyKitchen.WebAPI.Controllers
 
         public void Add(string name, MeasureUnit measureUnit)
         {
-            var newProduct = new PgProducts(connectionString).Add(name, measureUnit);
+            new PgProducts(connectionString).Add(name, measureUnit);
         }
 
         public void Remove(int id)
