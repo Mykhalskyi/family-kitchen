@@ -5,25 +5,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace FamilyKitchen.WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("calendar")]
     public class CalendarController : ControllerBase
     {
         private readonly string connectionString;
 
-        public CalendarController(string connectionString)
+        public CalendarController()
         {
-            this.connectionString = connectionString;
+            this.connectionString = "";
         }
 
         [HttpGet]
-        [Route("/between")]
+        [Route("between")]
         public IEnumerable<IDay> Between(DateTime start, DateTime end)
         {
             return new PgCalendar(connectionString).Between(start, end);
         }
 
         [HttpPost]
-        [Route("/add-cooking")]
+        [Route("add-cooking")]
         public void AddCooking(DateTime date, int dishId, int portions)
         {
             new PgCalendar(connectionString)
@@ -32,7 +32,7 @@ namespace FamilyKitchen.WebAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("/delete-cooking")]
+        [Route("delete-cooking")]
         public void RemoveCooking(DateTime date, int dishId)
         {
             new PgCalendar(connectionString)

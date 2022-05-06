@@ -5,32 +5,32 @@ using Microsoft.AspNetCore.Mvc;
 namespace FamilyKitchen.WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("product")]
     public class ProductController : ControllerBase
     {
         private readonly string connectionString;
 
-        public ProductController(string connectionString)
+        public ProductController()
         {
-            this.connectionString = connectionString;
+            this.connectionString = "";
         }
 
         [HttpGet]
-        [Route("/all")]
+        [Route("all")]
         public IEnumerable<IProduct> All()
         {
             return new PgProducts(connectionString).Iterate();
         }
 
         [HttpPost]
-        [Route("/add")]
+        [Route("add")]
         public void Add(string name, MeasureUnit measureUnit)
         {
             new PgProducts(connectionString).Add(name, measureUnit);
         }
 
         [HttpDelete]
-        [Route("/delete")]
+        [Route("delete")]
         public void Remove(int id)
         {
             new PgProducts(connectionString).Remove(id);

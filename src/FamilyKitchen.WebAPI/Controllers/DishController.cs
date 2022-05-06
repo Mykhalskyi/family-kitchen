@@ -5,25 +5,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace FamilyKitchen.WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("dish")]
     public class DishController : ControllerBase
     {
         private readonly string connectionString;
 
-        public DishController(string connectionString)
+        public DishController()
         {
-            this.connectionString = connectionString;
+            this.connectionString = "";
         }
 
         [HttpGet]
-        [Route("/all")]
+        [Route("all")]
         public IEnumerable<IDish> All()
         {
             return new PgDishes(connectionString).Iterate();
         }
 
         [HttpPost]
-        [Route("/add")]
+        [Route("add")]
         public void Add(
             string name, 
             int portions, 
@@ -34,7 +34,7 @@ namespace FamilyKitchen.WebAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("/delete")]
+        [Route("delete")]
         public void Remove(int id)
         {
             new PgDishes(connectionString).Remove(id);
