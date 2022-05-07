@@ -23,7 +23,7 @@ namespace FamilyKitchen.Persistance
 
         public IProduct Add(string name, MeasureUnit unit)
         {
-            var sql = "INSERT INTO Products(Name, Unit) OUTPUT INSERTED.Id VALUES(@Name, Unit)";
+            var sql = "INSERT INTO Products(Name, Unit) OUTPUT INSERTED.Id VALUES(@Name, @Unit)";
             var row = connection.QuerySingle(sql,
                 new
                 {
