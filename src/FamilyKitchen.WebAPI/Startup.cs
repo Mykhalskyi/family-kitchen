@@ -1,11 +1,15 @@
-using Microsoft.Data.Sqlite;
+using FamilyKitchen.WebAPI.Migrations;
+using FluentMigrator.Runner;
 using Microsoft.OpenApi.Models;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace FamilyKitchen.WebAPI
 {
     public class Startup
     {
+        private readonly string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=family-kitchen;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,8 +25,15 @@ namespace FamilyKitchen.WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FamilyKitchen.WebAPI", Version = "v1" });
             });
+            services
+                .AddFluentMigratorCore()
+                .ConfigureRunner(rb => rb
+                    .AddSqlServer()
+                    .WithGlobalConnectionString(connectionString)
+                    .ScanIn(GetType().Assembly).For.Migrations())
+                .AddLogging(lb => lb.AddFluentMigratorConsole());
 
-            services.AddTransient<IDbConnection>(_ => new SqliteConnection("Data Source=InMemorySample;Mode=Memory;Cache=Shared"));
+            services.AddTransient<IDbConnection>(_ => new SqlConnection(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +56,8 @@ namespace FamilyKitchen.WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            app.Migrate();
         }
     }
 }

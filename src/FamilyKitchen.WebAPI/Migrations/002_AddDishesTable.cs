@@ -2,6 +2,7 @@
 
 namespace FamilyKitchen.WebAPI.Migrations
 {
+    [Migration(002, nameof(AddDishesTable))]
     public class AddDishesTable : Migration
     {
         public override void Up() =>

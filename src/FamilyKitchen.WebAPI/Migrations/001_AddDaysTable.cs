@@ -2,6 +2,7 @@
 
 namespace FamilyKitchen.WebAPI.Migrations
 {
+    [Migration(001, nameof(AddDaysTable))]
     public class AddDaysTable : Migration
     {
         public override void Up() => 
