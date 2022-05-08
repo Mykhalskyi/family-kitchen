@@ -1,5 +1,6 @@
 ﻿using FamilyKitchen.Persistance;
 using FamilyKitchen.Shared.Entities;
+using FamilyKitchen.WebAPI.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -18,9 +19,13 @@ namespace FamilyKitchen.WebAPI.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IEnumerable<IProduct> All()
+        public ProductsResponse All()
         {
-            return new PgProducts(connection).Iterate();
+            return new ProductsResponse(
+                new PgProducts(connection)
+                .Iterate()
+                .Select(x => new ProductResponse(x.Id(), x.Name(), x.Unit()))
+                .ToList());
         }
 
         [HttpPost]

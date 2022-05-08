@@ -31,7 +31,7 @@ namespace FamilyKitchen.Persistance
         {
 
             var sql = "SELECT Unit FROM Products WHERE Id = @Id";
-            return connection
+            return (MeasureUnit)connection
                 .QuerySingle(sql, new { Id = id })
                 .Unit;
         }
