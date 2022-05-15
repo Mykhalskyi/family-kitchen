@@ -9,7 +9,7 @@ namespace FamilyKitchen.WebAPI.Migrations
             Create.Table("Ingredients")
                 .WithColumn("Id").AsInt32().PrimaryKey("PK_IngredientId").Identity()
                 .WithColumn("ProductId").AsInt32().ForeignKey("FK_Ingredient_ProductId", "Products", "Id")
-                .WithColumn("RecipeId").AsInt32().ForeignKey("FK_Ingredient_RecipeId", "Recipes", "Id")
+                .WithColumn("RecipeId").AsInt32().ForeignKey("FK_Ingredient_RecipeId", "Recipes", "Id").OnDelete(System.Data.Rule.Cascade)
                 .WithColumn("Amount").AsInt32();
 
         public override void Down() => Delete.Table("Ingredients");

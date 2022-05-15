@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
 using System.Data;
+using System.Text.Json.Nodes;
 
 namespace FamilyKitchen.Persistance
 {
@@ -8,49 +9,47 @@ namespace FamilyKitchen.Persistance
     {
         private readonly IDbConnection connection;
 
-        private readonly int id;
+        private readonly DateTime date;
 
-        public PgDay(IDbConnection connection, int id)
+        public PgDay(IDbConnection connection, DateTime date)
         {
             this.connection = connection;
-            this.id = id;
+            this.date = date;
         }
 
-        public DateTime Date()
-        {
-            var sql = "SELECT Date FROM Days WHERE Id = @Id";
-            return connection
-                .QuerySingle(sql, new { Id = id })
-                .Date;
-        }
-
-        public IEnumerable<ICooking> Menu()
-        {
-            var sql = "SELECT Id FROM Cookings WHERE DayId = @DayId";
-            return connection
-                .Query(sql, new { DayId = id })
+        public IEnumerable<ICooking> СookingPlan() =>
+            connection
+                .Query(
+                    "SELECT Id FROM Cookings WHERE Date = @Date",
+                    new { Date = date })
                 .Select(row => new PgCooking(connection, row.Id));
-        }
 
-        public ICooking AddCooking(int dishId, int portions)
+        public ICooking Schedule(int dishId, int portions)
         {
-            var sql = 
+            var row = connection.QuerySingle(
                 "INSERT INTO Cookings(Date, DishId, Portions) " +
-                "OUTPUT INSERTED.Id VALUES(@Date, @DishId, @Portions)";
-            var row = connection.QuerySingle(sql,
+                "OUTPUT INSERTED.Id VALUES(@Date, @DishId, @Portions)",
                 new
                 {
-                    Date = Date(),
+                    Date = date,
                     DishId = dishId,
                     Portions = portions
                 });
             return new PgCooking(connection, row.Id);
         }
 
-        public void RemoveCooking(int dishId)
-        {
-            var sql = "DELETE FROM Cookings WHERE DayId = @DayId";
-            connection.Execute(sql, new { DayId = id });
-        }
+        public void Unschedule(int dishId) =>
+            connection.Execute(
+                "DELETE FROM Cookings WHERE Date = @Date AND DishId = @DishId",
+                new { Date = date, DishId = dishId });
+
+        public JsonObject Json() =>
+            new(new Dictionary<string, JsonNode?>()
+            {
+                { $"{nameof(date)}", JsonValue.Create(date) },
+                { $"cookingPlan", new JsonArray(СookingPlan()
+                                                .Select(cooking => cooking.Json())
+                                                .ToArray()) },
+            });
     }
 }

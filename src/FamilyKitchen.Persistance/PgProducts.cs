@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
 using System.Data;
+using System.Text.Json.Nodes;
 
 namespace FamilyKitchen.Persistance
 {
@@ -12,7 +13,7 @@ namespace FamilyKitchen.Persistance
         {
             this.connection = connection;
         }
-
+         
         public IEnumerable<IProduct> Iterate()
         {
             var sql = "SELECT Id FROM Products";
@@ -38,5 +39,8 @@ namespace FamilyKitchen.Persistance
             var sql = "DELETE FROM Products WHERE Id = @Id";
             connection.Execute(sql, new { Id = id });
         }
+
+        public JsonArray Json() =>
+            new(Iterate().Select(product => product.Json()).ToArray());
     }
 }

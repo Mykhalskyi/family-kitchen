@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
 using System.Data;
+using System.Text.Json.Nodes;
 
 namespace FamilyKitchen.Persistance
 {
@@ -20,7 +21,6 @@ namespace FamilyKitchen.Persistance
 
         public string Name()
         {
-
             var sql = "SELECT Name FROM Products WHERE Id = @Id";
             return connection
                 .QuerySingle(sql, new { Id = id })
@@ -29,11 +29,18 @@ namespace FamilyKitchen.Persistance
 
         public MeasureUnit Unit()
         {
-
             var sql = "SELECT Unit FROM Products WHERE Id = @Id";
             return (MeasureUnit)connection
                 .QuerySingle(sql, new { Id = id })
                 .Unit;
         }
+
+        public JsonObject Json() =>
+            new(new Dictionary<string, JsonNode?>
+            {
+                { "id", id },
+                { "name", Name() },
+                { "unit", Unit().ToString() }
+            });
     }
 }

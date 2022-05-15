@@ -8,7 +8,7 @@ namespace FamilyKitchen.WebAPI.Migrations
         public override void Up() => 
             Create.Table("Recipes")
                 .WithColumn("Id").AsInt32().PrimaryKey("PK_RecipeId").Identity()
-                .WithColumn("DishId").AsInt32().ForeignKey("FK_Recipe_DishId", "Dishes", "Id")
+                .WithColumn("DishId").AsInt32().ForeignKey("FK_Recipe_DishId", "Dishes", "Id").OnDelete(System.Data.Rule.Cascade)
                 .WithColumn("Portions").AsInt32()
                 .WithColumn("Notes").AsString();
 

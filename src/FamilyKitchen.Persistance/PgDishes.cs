@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FamilyKitchen.Shared.Entities;
 using System.Data;
+using System.Text.Json.Nodes;
 
 namespace FamilyKitchen.Persistance
 {
@@ -15,7 +16,6 @@ namespace FamilyKitchen.Persistance
 
         public IEnumerable<IDish> Iterate()
         {
-
             var sql = "SELECT Id FROM Dishes";
             return connection
                 .Query(sql)
@@ -24,11 +24,10 @@ namespace FamilyKitchen.Persistance
 
         public IDish Add(string name, int portions, IEnumerable<(int ProductId, int Amount)> ingredients, string notes)
         {
-
-            var sql = 
+            var sqlInsertDish = 
                 "INSERT INTO Dishes(Name) " +
                 "OUTPUT INSERTED.Id VALUES(@Name)";
-            var insertedDish = connection.QuerySingle(sql, new { Name = name });
+            var insertedDish = connection.QuerySingle(sqlInsertDish, new { Name = name });
 
             var sqlInsertRecipe =
                 "INSERT INTO Recipes(DishId, Portions, Notes) " +
@@ -41,26 +40,33 @@ namespace FamilyKitchen.Persistance
                     Notes = notes
                 });
 
-            var sqlInsertIngredient = 
+            var sqlInsertIngredients = 
                 "INSERT INTO Ingredients(ProductId, RecipeId, Amount) " +
                 "VALUES(@ProductId, @RecipeId, @Amount)";
-            foreach (var (ProductId, Amount) in ingredients)
-                connection.Execute(sqlInsertIngredient,
-                    new
-                    {
-                        ProductId,
-                        RecipeId = insertedRecipe.Id,
-                        Amount,
-                    });
+
+            var ingr = ingredients.Select(i => {
+                return new
+                {
+                    ProductId = i.ProductId,
+                    RecipeId = insertedRecipe.Id,
+                    Amount = i.Amount
+                };
+            }).ToArray();
+
+            connection.Execute(
+                sqlInsertIngredients, 
+                ingr);
 
             return new PgDish(connection, insertedDish.Id);
         }
 
         public void Remove(int id)
         {
-
             var sql = "DELETE FROM Dishes WHERE Id = @Id";
             connection.Execute(sql, new { Id = id });
         }
+
+        public JsonArray Json() =>
+            new(Iterate().Select(dish => dish.Json()).ToArray());
     }
 }
