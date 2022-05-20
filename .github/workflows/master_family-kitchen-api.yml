@@ -26,7 +26,7 @@ jobs:
         run: cd src/FamilyKitchen.WebAPI
 
       - name: Build with dotnet
-        run: dotnet build FamilyKitchen.WebAPI.csproj --configuration Release
+        run: dotnet build FamilyKitchen.WebAPI --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
