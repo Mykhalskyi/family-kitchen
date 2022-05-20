@@ -1,5 +1,3 @@
-<img src="https://github.com/Mykhalskyi/family-kitchen/workflows/API-CI/badge.svg?branch=master"><br>
-
 # Welcome to the "Family Kitchen"!
 
 This project helps families to manage home kitchen activities.
