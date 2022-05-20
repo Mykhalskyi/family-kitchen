@@ -24,6 +24,9 @@ jobs:
           
       - name: Switch directory
         run: cd src/FamilyKitchen.WebAPI
+        
+      - name: Check
+        run: ls
 
       - name: Build with dotnet
         run: dotnet build FamilyKitchen.WebAPI --configuration Release
