@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
           
       - name: Switch directory
-        run: ls
+        run: cd src
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
