@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
           
       - name: Switch directory
-        run: cd src
+        run: cd /src/FamilyKitchen.WebApi
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
