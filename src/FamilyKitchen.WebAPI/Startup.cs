@@ -10,8 +10,6 @@ namespace FamilyKitchen.WebAPI
 {
     public class Startup
     {
-        private readonly string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=family-kitchen;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,11 +41,11 @@ namespace FamilyKitchen.WebAPI
                 .AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddSqlServer()
-                    .WithGlobalConnectionString(connectionString)
+                    .WithGlobalConnectionString(Configuration["familyKitchenConnectionString"])
                     .ScanIn(GetType().Assembly).For.Migrations())
                 .AddLogging(lb => lb.AddFluentMigratorConsole());
 
-            services.AddTransient<IDbConnection>(_ => new SqlConnection(connectionString));
+            services.AddTransient<IDbConnection>(_ => new SqlConnection(Configuration["familyKitchenConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
