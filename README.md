@@ -1,3 +1,5 @@
+![Build & Deploy](https://github.com/Mykhalskyi/family-kitchen/actions/workflows/master_family-kitchen-api.yml/badge.svg)
+
 # Welcome to the "Family Kitchen"!
 
 This project helps families to manage home kitchen activities.
