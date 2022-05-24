@@ -1,4 +1,4 @@
-![Build & Deploy](https://github.com/Mykhalskyi/family-kitchen/actions/workflows/master_family-kitchen-api.yml/badge.svg?branch=master)
+![Build & Deploy](https://github.com/Mykhalskyi/family-kitchen/actions/workflows/build-and-deploy-master.yml/badge.svg?branch=master)
 
 # Welcome to the "Family Kitchen"!
 
