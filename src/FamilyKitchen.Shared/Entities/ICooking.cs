@@ -6,6 +6,12 @@
     public interface ICooking : IJson
     {
         /// <summary>
+        /// Id of user who owns this Cooking.
+        /// </summary>
+        /// <returns></returns>
+        public int UserId();
+
+        /// <summary>
         /// Dish that is planned to cook.
         /// </summary>
         /// <returns>Dish.</returns>

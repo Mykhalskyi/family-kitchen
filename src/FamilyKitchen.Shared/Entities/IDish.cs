@@ -12,6 +12,12 @@
         public int Id();
 
         /// <summary>
+        /// Id of User who owns this Dish.
+        /// </summary>
+        /// <returns></returns>
+        public int UserId();
+
+        /// <summary>
         /// Name of Dish.
         /// </summary>
         /// <returns>Name of Dish.</returns>

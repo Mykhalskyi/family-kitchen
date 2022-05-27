@@ -19,6 +19,12 @@ namespace FamilyKitchen.Persistance
 
         public int Id() => id;
 
+        public int UserId()
+        {
+            var sql = "SELECT UserId FROM Dishes WHERE Id = @Id";
+            return connection.QuerySingle(sql, new { Id = id }).UserId;
+        }
+
         public string Name()
         {
             var sql = "SELECT Name FROM Dishes WHERE Id = @Id";

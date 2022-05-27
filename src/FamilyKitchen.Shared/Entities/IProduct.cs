@@ -12,6 +12,12 @@
         public int Id();
 
         /// <summary>
+        /// Id of User who owns this Product.
+        /// </summary>
+        /// <returns></returns>
+        public int UserId();
+
+        /// <summary>
         /// Name of Product.
         /// </summary>
         /// <returns>Name of Product.</returns>
