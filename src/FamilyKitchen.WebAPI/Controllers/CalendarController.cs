@@ -30,9 +30,11 @@ namespace FamilyKitchen.WebAPI.Controllers
         [HttpGet]
         [Route("between")]
         public JsonArray Between(
-            [FromQuery] DateTime start, 
-            [FromQuery] DateTime end) =>
-            new PgPeriod(connection, start, end).Json();
+            [FromQuery] DateTime start,
+            [FromQuery] DateTime end)
+        {
+            return new PgPeriod(connection, start, end).Json();
+        }
 
         /// <summary>
         /// Shedule a Cooking.

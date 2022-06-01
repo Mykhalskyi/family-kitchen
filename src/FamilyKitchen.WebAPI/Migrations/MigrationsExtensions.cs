@@ -2,9 +2,9 @@
 
 namespace FamilyKitchen.WebAPI.Migrations
 {
-    public static class MigrationsExtensions
+    internal static class MigrationsExtensions
     {
-        public static IApplicationBuilder Migrate(this IApplicationBuilder app)
+        internal static IApplicationBuilder Migrate(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
             var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
